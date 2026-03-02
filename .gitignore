@@ -1,0 +1,65 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyCharm
+.idea/
+*.swp
+*.swo
+
+# VS Code
+.vscode/
+.vs/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Data and Models (too large for Git)
+data/
+checkpoints/
+*.pth
+*.pt
+*.model
+*.pkl
+
+# Temporary files
+*.tmp
+*.log
+.DS_Store
+uploads/
+downloads/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# IDE
+*.sublime-project
+*.sublime-workspace
+
+# OS
+Thumbs.db
+.DS_Store
