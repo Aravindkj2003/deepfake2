@@ -10,72 +10,100 @@
   <style>
     * { box-sizing: border-box; }
 
+    :root {
+      --bg-1: #d8c3a5;
+      --bg-2: #f4e6d1;
+      --card: rgba(255, 248, 238, 0.9);
+      --card-border: rgba(120, 92, 63, 0.18);
+      --text-main: #3f2f22;
+      --text-muted: #7c6651;
+      --accent-cyan: #c08a4d;
+      --accent-purple: #8a6a4e;
+      --accent-green: #a8743d;
+      --danger: #b24a3f;
+    }
+
     body {
       margin: 0;
       font-family: Inter, Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
-      background: radial-gradient(circle at top, #1f2937 0%, #111827 50%, #030712 100%);
+      background:
+        radial-gradient(1000px 600px at -10% -20%, rgba(203, 163, 122, 0.28), transparent 55%),
+        radial-gradient(900px 560px at 110% -10%, rgba(154, 121, 88, 0.2), transparent 55%),
+        linear-gradient(180deg, var(--bg-2), var(--bg-1));
       min-height: 100vh;
-      padding: 28px;
+      padding: 30px;
     }
 
     .app-shell {
-      max-width: 1100px;
+      max-width: 1180px;
       margin: 0 auto;
-      color: #f3f4f6;
+      color: var(--text-main);
     }
 
     .hero {
-      margin-bottom: 20px;
+      margin-bottom: 18px;
+      padding: 22px;
+      border-radius: 20px;
+      border: 1px solid var(--card-border);
+      background: linear-gradient(120deg, rgba(198, 155, 111, 0.22), rgba(236, 214, 185, 0.35));
+      backdrop-filter: blur(8px);
     }
 
     .title {
       margin: 0;
-      font-size: 34px;
+      font-size: 44px;
       font-weight: 700;
-      letter-spacing: 0.2px;
-      color: #e5e7eb;
+      letter-spacing: -0.5px;
+      color: var(--text-main);
+      line-height: 1.05;
     }
 
     .subtitle {
-      color: #9ca3af;
-      margin-top: 8px;
+      color: var(--text-muted);
+      margin-top: 10px;
       margin-bottom: 0;
-      font-size: 15px;
+      font-size: 17px;
     }
 
     .grid {
       display: grid;
       grid-template-columns: 1.2fr 1fr;
-      gap: 16px;
+      gap: 18px;
     }
 
     .card {
       width: 100%;
-      background: rgba(17, 24, 39, 0.88);
-      border: 1px solid #374151;
-      border-radius: 16px;
-      padding: 18px;
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
-      backdrop-filter: blur(4px);
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 22px 38px rgba(0, 0, 0, 0.32);
+      backdrop-filter: blur(10px);
     }
 
     .card h3 {
-      margin: 0 0 12px;
-      color: #f9fafb;
-      font-size: 18px;
+      margin: 0 0 14px;
+      color: #4b382a;
+      font-size: 24px;
+      letter-spacing: -0.2px;
     }
 
     .section {
-      border: 1px solid #374151;
-      border-radius: 12px;
+      border: 1px solid rgba(136, 105, 75, 0.25);
+      border-radius: 16px;
       padding: 16px;
       margin-bottom: 14px;
-      background: rgba(31, 41, 55, 0.6);
+      background: rgba(255, 250, 242, 0.72);
+    }
+
+    .section h3 {
+      font-size: 20px;
+      margin-bottom: 14px;
     }
 
     .row {
       display: flex;
-      gap: 10px;
+      gap: 12px;
       flex-wrap: wrap;
       align-items: center;
     }
@@ -83,101 +111,166 @@
     input[type="text"] {
       flex: 1;
       min-width: 240px;
-      padding: 10px 12px;
-      border-radius: 8px;
-      border: 1px solid #4b5563;
-      background: #111827;
-      color: #f9fafb;
-      font-size: 14px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(132, 103, 74, 0.35);
+      background: rgba(255, 255, 255, 0.72);
+      color: #3f2f22;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    input[type="text"]:focus {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.18);
     }
 
     input[type="text"]::placeholder {
-      color: #6b7280;
+      color: #9a7d5e;
     }
 
     input[type="file"] {
       font-size: 14px;
-      color: #d1d5db;
+      color: #4b382a;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(132, 103, 74, 0.35);
+      border-radius: 12px;
+      padding: 10px 12px;
+      width: 100%;
     }
 
     button {
       border: none;
-      border-radius: 8px;
-      padding: 10px 14px;
+      border-radius: 12px;
+      padding: 11px 16px;
       font-weight: 600;
       cursor: pointer;
-      background: linear-gradient(90deg, #06b6d4, #22c55e);
-      color: #052e16;
+      background: linear-gradient(120deg, var(--accent-cyan), var(--accent-green));
+      color: #fffaf2;
+      font-size: 15px;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    button:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(158, 120, 82, 0.32);
     }
 
     button:disabled {
-      background: #4b5563;
-      color: #d1d5db;
+      background: rgba(156, 130, 104, 0.38);
+      color: #f3e8d8;
       cursor: not-allowed;
     }
 
     .secondary {
-      background: linear-gradient(90deg, #f59e0b, #f97316);
-      color: #3f1d02;
+      background: linear-gradient(120deg, #8e6b4f, #c5955a);
+      color: #fffaf2;
     }
 
     .upload-preview {
       margin-top: 12px;
-      border: 1px dashed #6b7280;
-      border-radius: 10px;
+      border: 1px dashed rgba(136, 105, 75, 0.5);
+      border-radius: 12px;
       padding: 12px;
-      background: rgba(17, 24, 39, 0.7);
+      background: rgba(255, 255, 255, 0.55);
+    }
+
+    .paste-box {
+      margin-top: 12px;
+      border: 1px dashed rgba(136, 105, 75, 0.5);
+      border-radius: 12px;
+      padding: 14px;
+      background: rgba(255, 255, 255, 0.55);
+      color: #5b4633;
+      font-size: 14px;
     }
 
     .result {
       margin-top: 12px;
-      border-radius: 12px;
-      padding: 14px;
+      border-radius: 14px;
+      padding: 16px;
       border: 1px solid;
     }
 
     .real {
-      background: rgba(20, 83, 45, 0.35);
-      border-color: #22c55e;
-      color: #dcfce7;
+      background: rgba(6, 78, 59, 0.38);
+      border-color: #34d399;
+      color: #d1fae5;
     }
 
     .fake {
-      background: rgba(127, 29, 29, 0.35);
-      border-color: #ef4444;
+      background: rgba(127, 29, 29, 0.4);
+      border-color: #f87171;
       color: #fee2e2;
     }
 
     .error {
-      background: rgba(127, 29, 29, 0.3);
-      border: 1px solid #f87171;
+      background: rgba(153, 27, 27, 0.35);
+      border: 1px solid var(--danger);
       color: #fee2e2;
     }
 
     .meta {
-      color: #d1d5db;
-      margin-top: 6px;
+      color: #6f573f;
+      margin-top: 8px;
       font-size: 14px;
     }
 
-    audio { width: 100%; margin-top: 12px; }
+    audio {
+      width: 100%;
+      margin-top: 12px;
+      border-radius: 999px;
+      background: #e2e8f0;
+      padding: 2px;
+    }
 
-    .muted { color: #9ca3af; font-size: 13px; }
+    .muted { color: var(--text-muted); font-size: 13px; }
 
     .badge {
       display: inline-block;
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: 999px;
+      padding: 6px 12px;
+      background: rgba(201, 157, 111, 0.2);
+      color: #5d4531;
+      margin-bottom: 12px;
+      border: 1px solid rgba(177, 132, 90, 0.45);
+    }
+
+    .result-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+    }
+
+    .status-pill {
       font-size: 12px;
       font-weight: 700;
       border-radius: 999px;
-      padding: 4px 10px;
-      background: #0f766e;
-      color: #ccfbf1;
-      margin-bottom: 10px;
+      padding: 5px 10px;
+      background: rgba(255, 255, 255, 0.55);
+      border: 1px solid rgba(136, 105, 75, 0.35);
+      color: #4b382a;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 26px 14px;
     }
 
     @media (max-width: 900px) {
       .grid {
         grid-template-columns: 1fr;
+      }
+
+      .title {
+        font-size: 34px;
       }
     }
   </style>
@@ -191,11 +284,41 @@
 
     function App() {
       const [file, setFile] = useState(null);
+      const [uploadMethod, setUploadMethod] = useState(null); // 'upload' or 'paste'
       const [localAudioPreview, setLocalAudioPreview] = useState('');
-      const [audioUrlInput, setAudioUrlInput] = useState('');
       const [loading, setLoading] = useState(false);
       const [result, setResult] = useState(null);
       const [error, setError] = useState('');
+
+      const selectFromPasteEvent = (event) => {
+        const clipboardData = event.clipboardData;
+        if (!clipboardData) return false;
+
+        const items = Array.from(clipboardData.items || []);
+        for (const item of items) {
+          if (item.kind === 'file') {
+            const pastedFile = item.getAsFile();
+            if (pastedFile && pastedFile.type.startsWith('audio/')) {
+              setFile(pastedFile);
+              setUploadMethod('paste');
+              setError('');
+              return true;
+            }
+          }
+        }
+
+        const files = Array.from(clipboardData.files || []);
+        for (const pastedFile of files) {
+          if (pastedFile.type && pastedFile.type.startsWith('audio/')) {
+            setFile(pastedFile);
+            setUploadMethod('paste');
+            setError('');
+            return true;
+          }
+        }
+
+        return false;
+      };
 
       useEffect(() => {
         if (!file) {
@@ -211,9 +334,28 @@
         };
       }, [file]);
 
+      useEffect(() => {
+        const handleGlobalPaste = (event) => {
+          const ok = selectFromPasteEvent(event);
+          if (ok) {
+            event.preventDefault();
+          }
+        };
+
+        window.addEventListener('paste', handleGlobalPaste);
+        return () => window.removeEventListener('paste', handleGlobalPaste);
+      }, []);
+
       const clearMessages = () => {
         setError('');
         setResult(null);
+      };
+
+      const clearFile = () => {
+        setFile(null);
+        setUploadMethod(null);
+        setLocalAudioPreview('');
+        clearMessages();
       };
 
       const analyzeUpload = async () => {
@@ -244,38 +386,12 @@
         }
       };
 
-      const analyzeFromUrl = async () => {
-        if (!audioUrlInput.trim()) {
-          setError('Please paste an audio URL.');
-          return;
-        }
-
-        clearMessages();
-        setLoading(true);
-
-        try {
-          const response = await fetch('/predict-url', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ audioUrl: audioUrlInput.trim() }),
-          });
-
-          const data = await response.json();
-          if (!response.ok) throw new Error(data.error || 'Prediction failed');
-          setResult(data);
-        } catch (e) {
-          setError(e.message);
-        } finally {
-          setLoading(false);
-        }
-      };
-
       return (
         <div className="app-shell">
           <div className="hero">
             <div className="badge">Flask + React</div>
             <h1 className="title">Audio Deepfake Detector</h1>
-            <p className="subtitle">New layout with instant upload playback, URL analysis, and improved result panel.</p>
+            <p className="subtitle">Analyze uploaded or pasted audio files instantly with playback at every stage.</p>
           </div>
 
           <div className="grid">
@@ -288,10 +404,21 @@
                   <input
                     type="file"
                     accept=".wav,.mp3,.ogg,.flac,.m4a,.opus"
-                    onChange={(e) => setFile(e.target.files?.[0] || null)}
+                    disabled={uploadMethod === 'paste'}
+                    onChange={(e) => {
+                      setFile(e.target.files?.[0] || null);
+                      if (e.target.files?.[0]) setUploadMethod('upload');
+                    }}
                   />
                   <button onClick={analyzeUpload} disabled={loading || !file}>Analyze Upload</button>
                 </div>
+
+                {uploadMethod === 'paste' && file && (
+                  <div className="paste-box">
+                    <strong style={{color: '#c08a4d'}}>📋 Pasted File Active</strong>
+                    <div className="muted" style={{ marginTop: '8px' }}>File uploaded via clipboard paste. Click "Clear" to switch to manual upload.</div>
+                  </div>
+                )}
 
                 {file && (
                   <>
@@ -299,23 +426,29 @@
                     <div className="upload-preview">
                       <div className="muted">Preview before analysis:</div>
                       <audio controls src={localAudioPreview}></audio>
+                      <button 
+                        onClick={clearFile} 
+                        style={{marginTop: '10px', background: 'rgba(220, 120, 100, 0.6)', flex: '0 0 auto', padding: '8px 14px', fontSize: '13px'}}
+                      >
+                        Clear &amp; Change Upload Method
+                      </button>
                     </div>
                   </>
                 )}
-              </div>
 
-              <div className="section">
-                <h3>Paste Audio URL</h3>
-                <div className="row">
-                  <input
-                    type="text"
-                    placeholder="https://example.com/audio.mp3"
-                    value={audioUrlInput}
-                    onChange={(e) => setAudioUrlInput(e.target.value)}
-                  />
-                  <button className="secondary" onClick={analyzeFromUrl} disabled={loading}>Analyze URL</button>
-                </div>
-                <div className="muted">Supports direct http/https links to audio files.</div>
+                {uploadMethod === 'upload' && !file && (
+                  <div className="paste-box">
+                    <strong style={{color: '#c08a4d'}}>📁 Upload Mode Active</strong>
+                    <div className="muted" style={{ marginTop: '6px' }}>Paste mode is disabled. Click "Choose File" above to select, or clear the current file to use paste.</div>
+                  </div>
+                )}
+
+                {!file && (
+                  <div className="paste-box">
+                    <strong>Paste Audio File:</strong> copy an audio file and press <strong>Ctrl + V</strong> anywhere on this page.
+                    <div className="muted" style={{ marginTop: '6px' }}>If browser blocks file paste, use Choose File instead.</div>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -331,16 +464,24 @@
 
               {!loading && !error && !result && (
                 <div className="section">
-                  <div className="muted">No result yet. Upload audio or paste URL to begin analysis.</div>
+                  <div className="empty-state">
+                    <div className="muted">No result yet. Upload or paste an audio file to begin analysis.</div>
+                  </div>
                 </div>
               )}
 
               {result && (
                 <div className={`result ${result.is_real ? 'real' : 'fake'}`}>
-                  <strong>{result.prediction}</strong>
+                  <div className="result-title">
+                    <span>{result.prediction}</span>
+                    <span className="status-pill">{result.is_real ? 'Likely human' : 'Likely synthetic'}</span>
+                  </div>
                   <div className="meta">Confidence: {(result.confidence * 100).toFixed(2)}%</div>
                   <div className="meta">Model: {result.model}</div>
                   <div className="meta">File: {result.file_name}</div>
+                  {result.segments_used && (
+                    <div className="meta">Segment votes: {result.real_votes} real / {result.fake_votes} fake ({result.segments_used} segments)</div>
+                  )}
                   <div className="muted">Playback of analyzed audio:</div>
                   <audio controls src={result.file_url}></audio>
                 </div>
