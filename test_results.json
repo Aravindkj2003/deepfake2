@@ -1,0 +1,1190 @@
+{
+  "noise": {
+    "samples_tested": 3,
+    "cnn_correct": 3,
+    "resnet_correct": 3,
+    "both_correct": 3,
+    "disagreement": 0,
+    "details": [
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0003",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0061",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0013",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0001",
+        "match": "\u2713"
+      }
+    ]
+  },
+  "noise+effect": {
+    "samples_tested": 3,
+    "cnn_correct": 3,
+    "resnet_correct": 3,
+    "both_correct": 3,
+    "disagreement": 0,
+    "details": [
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0003",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0061",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0013",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0001",
+        "match": "\u2713"
+      }
+    ]
+  },
+  "noise+noise": {
+    "samples_tested": 3,
+    "cnn_correct": 3,
+    "resnet_correct": 3,
+    "both_correct": 3,
+    "disagreement": 0,
+    "details": [
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0003",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0061",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0013",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0001",
+        "match": "\u2713"
+      }
+    ]
+  },
+  "noise+pitch": {
+    "samples_tested": 3,
+    "cnn_correct": 3,
+    "resnet_correct": 3,
+    "both_correct": 3,
+    "disagreement": 0,
+    "details": [
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0003",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0061",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0013",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0001",
+        "match": "\u2713"
+      }
+    ]
+  },
+  "noise+shift": {
+    "samples_tested": 3,
+    "cnn_correct": 3,
+    "resnet_correct": 3,
+    "both_correct": 3,
+    "disagreement": 0,
+    "details": [
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0003",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0061",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0013",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0001",
+        "match": "\u2713"
+      }
+    ]
+  },
+  "noise+stretch": {
+    "samples_tested": 3,
+    "cnn_correct": 3,
+    "resnet_correct": 3,
+    "both_correct": 3,
+    "disagreement": 0,
+    "details": [
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0003",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0061",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0013",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0001",
+        "match": "\u2713"
+      }
+    ]
+  },
+  "noise+volume": {
+    "samples_tested": 3,
+    "cnn_correct": 3,
+    "resnet_correct": 3,
+    "both_correct": 3,
+    "disagreement": 0,
+    "details": [
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0003",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0061",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0013",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0001",
+        "match": "\u2713"
+      }
+    ]
+  },
+  "original": {
+    "samples_tested": 3,
+    "cnn_correct": 3,
+    "resnet_correct": 3,
+    "both_correct": 3,
+    "disagreement": 0,
+    "details": [
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0003",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0061",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0013",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0001",
+        "match": "\u2713"
+      }
+    ]
+  },
+  "pitch": {
+    "samples_tested": 3,
+    "cnn_correct": 3,
+    "resnet_correct": 3,
+    "both_correct": 3,
+    "disagreement": 0,
+    "details": [
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0003",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0061",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0013",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0001",
+        "match": "\u2713"
+      }
+    ]
+  },
+  "pitch+effect": {
+    "samples_tested": 3,
+    "cnn_correct": 3,
+    "resnet_correct": 3,
+    "both_correct": 3,
+    "disagreement": 0,
+    "details": [
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0003",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0061",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0013",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0001",
+        "match": "\u2713"
+      }
+    ]
+  },
+  "pitch+noise": {
+    "samples_tested": 3,
+    "cnn_correct": 3,
+    "resnet_correct": 3,
+    "both_correct": 3,
+    "disagreement": 0,
+    "details": [
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0003",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0061",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0013",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0001",
+        "match": "\u2713"
+      }
+    ]
+  },
+  "pitch+pitch": {
+    "samples_tested": 3,
+    "cnn_correct": 3,
+    "resnet_correct": 3,
+    "both_correct": 3,
+    "disagreement": 0,
+    "details": [
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0003",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0061",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0013",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0001",
+        "match": "\u2713"
+      }
+    ]
+  },
+  "pitch+shift": {
+    "samples_tested": 3,
+    "cnn_correct": 3,
+    "resnet_correct": 3,
+    "both_correct": 3,
+    "disagreement": 0,
+    "details": [
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0003",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0061",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0013",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0001",
+        "match": "\u2713"
+      }
+    ]
+  },
+  "pitch+stretch": {
+    "samples_tested": 3,
+    "cnn_correct": 3,
+    "resnet_correct": 3,
+    "both_correct": 3,
+    "disagreement": 0,
+    "details": [
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0003",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0061",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0013",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0001",
+        "match": "\u2713"
+      }
+    ]
+  },
+  "pitch+volume": {
+    "samples_tested": 3,
+    "cnn_correct": 3,
+    "resnet_correct": 3,
+    "both_correct": 3,
+    "disagreement": 0,
+    "details": [
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0003",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0061",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0013",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0001",
+        "match": "\u2713"
+      }
+    ]
+  },
+  "shift": {
+    "samples_tested": 3,
+    "cnn_correct": 3,
+    "resnet_correct": 3,
+    "both_correct": 3,
+    "disagreement": 0,
+    "details": [
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0003",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0061",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0013",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0001",
+        "match": "\u2713"
+      }
+    ]
+  },
+  "shift+effect": {
+    "samples_tested": 3,
+    "cnn_correct": 3,
+    "resnet_correct": 3,
+    "both_correct": 3,
+    "disagreement": 0,
+    "details": [
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0003",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0061",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0013",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0001",
+        "match": "\u2713"
+      }
+    ]
+  },
+  "shift+noise": {
+    "samples_tested": 3,
+    "cnn_correct": 3,
+    "resnet_correct": 3,
+    "both_correct": 3,
+    "disagreement": 0,
+    "details": [
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0003",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0061",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0013",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0001",
+        "match": "\u2713"
+      }
+    ]
+  },
+  "shift+pitch": {
+    "samples_tested": 3,
+    "cnn_correct": 3,
+    "resnet_correct": 3,
+    "both_correct": 3,
+    "disagreement": 0,
+    "details": [
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0003",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0061",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0013",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0001",
+        "match": "\u2713"
+      }
+    ]
+  },
+  "shift+shift": {
+    "samples_tested": 3,
+    "cnn_correct": 3,
+    "resnet_correct": 3,
+    "both_correct": 3,
+    "disagreement": 0,
+    "details": [
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0003",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0061",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0013",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0001",
+        "match": "\u2713"
+      }
+    ]
+  },
+  "shift+stretch": {
+    "samples_tested": 3,
+    "cnn_correct": 3,
+    "resnet_correct": 3,
+    "both_correct": 3,
+    "disagreement": 0,
+    "details": [
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0003",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0061",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0013",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0001",
+        "match": "\u2713"
+      }
+    ]
+  },
+  "shift+volume": {
+    "samples_tested": 3,
+    "cnn_correct": 3,
+    "resnet_correct": 3,
+    "both_correct": 3,
+    "disagreement": 0,
+    "details": [
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0003",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0061",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0013",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0001",
+        "match": "\u2713"
+      }
+    ]
+  },
+  "stretch": {
+    "samples_tested": 3,
+    "cnn_correct": 3,
+    "resnet_correct": 3,
+    "both_correct": 3,
+    "disagreement": 0,
+    "details": [
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0003",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0061",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0013",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0001",
+        "match": "\u2713"
+      }
+    ]
+  },
+  "stretch+effect": {
+    "samples_tested": 3,
+    "cnn_correct": 3,
+    "resnet_correct": 3,
+    "both_correct": 3,
+    "disagreement": 0,
+    "details": [
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0003",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0061",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0013",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0001",
+        "match": "\u2713"
+      }
+    ]
+  },
+  "stretch+noise": {
+    "samples_tested": 3,
+    "cnn_correct": 3,
+    "resnet_correct": 3,
+    "both_correct": 3,
+    "disagreement": 0,
+    "details": [
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0003",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0061",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0013",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0001",
+        "match": "\u2713"
+      }
+    ]
+  },
+  "stretch+pitch": {
+    "samples_tested": 3,
+    "cnn_correct": 3,
+    "resnet_correct": 3,
+    "both_correct": 3,
+    "disagreement": 0,
+    "details": [
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0003",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0061",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0013",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0001",
+        "match": "\u2713"
+      }
+    ]
+  },
+  "stretch+shift": {
+    "samples_tested": 3,
+    "cnn_correct": 3,
+    "resnet_correct": 3,
+    "both_correct": 3,
+    "disagreement": 0,
+    "details": [
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0003",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0061",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0013",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0001",
+        "match": "\u2713"
+      }
+    ]
+  },
+  "stretch+stretch": {
+    "samples_tested": 3,
+    "cnn_correct": 3,
+    "resnet_correct": 3,
+    "both_correct": 3,
+    "disagreement": 0,
+    "details": [
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0003",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0061",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0013",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0001",
+        "match": "\u2713"
+      }
+    ]
+  },
+  "stretch+volume": {
+    "samples_tested": 3,
+    "cnn_correct": 3,
+    "resnet_correct": 3,
+    "both_correct": 3,
+    "disagreement": 0,
+    "details": [
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0003",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0061",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0013",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0001",
+        "match": "\u2713"
+      }
+    ]
+  },
+  "volume": {
+    "samples_tested": 3,
+    "cnn_correct": 3,
+    "resnet_correct": 3,
+    "both_correct": 3,
+    "disagreement": 0,
+    "details": [
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0003",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0061",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0013",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0001",
+        "match": "\u2713"
+      }
+    ]
+  },
+  "volume+effect": {
+    "samples_tested": 3,
+    "cnn_correct": 3,
+    "resnet_correct": 3,
+    "both_correct": 3,
+    "disagreement": 0,
+    "details": [
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0003",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0061",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0013",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0001",
+        "match": "\u2713"
+      }
+    ]
+  },
+  "volume+noise": {
+    "samples_tested": 3,
+    "cnn_correct": 3,
+    "resnet_correct": 3,
+    "both_correct": 3,
+    "disagreement": 0,
+    "details": [
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0003",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0061",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0013",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0001",
+        "match": "\u2713"
+      }
+    ]
+  },
+  "volume+pitch": {
+    "samples_tested": 3,
+    "cnn_correct": 3,
+    "resnet_correct": 3,
+    "both_correct": 3,
+    "disagreement": 0,
+    "details": [
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0003",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0061",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0013",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0001",
+        "match": "\u2713"
+      }
+    ]
+  },
+  "volume+shift": {
+    "samples_tested": 3,
+    "cnn_correct": 3,
+    "resnet_correct": 3,
+    "both_correct": 3,
+    "disagreement": 0,
+    "details": [
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0003",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0061",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0013",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0001",
+        "match": "\u2713"
+      }
+    ]
+  },
+  "volume+stretch": {
+    "samples_tested": 3,
+    "cnn_correct": 3,
+    "resnet_correct": 3,
+    "both_correct": 3,
+    "disagreement": 0,
+    "details": [
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0003",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0061",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0013",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0001",
+        "match": "\u2713"
+      }
+    ]
+  },
+  "volume+volume": {
+    "samples_tested": 3,
+    "cnn_correct": 3,
+    "resnet_correct": 3,
+    "both_correct": 3,
+    "disagreement": 0,
+    "details": [
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0003",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0061",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0000",
+        "match": "\u2713"
+      },
+      {
+        "label": "Fake",
+        "cnn": "Fake",
+        "cnn_confidence": "0.0013",
+        "resnet": "Fake",
+        "resnet_confidence": "0.0001",
+        "match": "\u2713"
+      }
+    ]
+  }
+}
