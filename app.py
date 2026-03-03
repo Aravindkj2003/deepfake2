@@ -66,12 +66,11 @@ def load_model(model_name='resnet18', checkpoint_path=None):
     print(f'Model loaded: {model_name} on {device}')
 
 
-def audio_to_spectrogram(audio_path, sample_rate=16000, n_mels=128, max_len=128):
-    audio, sr = librosa.load(audio_path, sr=sample_rate, mono=True)
+def audio_to_spectrogram_from_waveform(audio, sample_rate=16000, n_mels=128, max_len=128):
 
     mel_spec = librosa.feature.melspectrogram(
         y=audio,
-        sr=sr,
+        sr=sample_rate,
         n_mels=n_mels,
         n_fft=2048,
         hop_length=512,
@@ -90,6 +89,28 @@ def audio_to_spectrogram(audio_path, sample_rate=16000, n_mels=128, max_len=128)
         mel_spec_db = mel_spec_db[:, :max_len]
 
     return torch.FloatTensor(mel_spec_db).unsqueeze(0).unsqueeze(0)
+
+
+def iter_audio_segments(audio_path, sample_rate=16000, segment_seconds=2.0, max_segments=6):
+    audio, _ = librosa.load(audio_path, sr=sample_rate, mono=True)
+
+    segment_len = int(sample_rate * segment_seconds)
+    if segment_len <= 0:
+        segment_len = sample_rate * 2
+
+    total_segments = max(1, int(np.ceil(len(audio) / segment_len)))
+    total_segments = min(total_segments, max_segments)
+
+    segments = []
+    for idx in range(total_segments):
+        start = idx * segment_len
+        end = start + segment_len
+        chunk = audio[start:end]
+        if len(chunk) < segment_len:
+            chunk = np.pad(chunk, (0, segment_len - len(chunk)))
+        segments.append(chunk)
+
+    return segments
 
 
 def model_predict(spec):
@@ -117,8 +138,31 @@ def predict_audio(audio_path):
     if model is None:
         raise RuntimeError('Model not loaded. Call load_model() first.')
 
-    spec = audio_to_spectrogram(audio_path).to(device)
-    return model_predict(spec)
+    segments = iter_audio_segments(audio_path)
+    segment_probs = []
+
+    for segment in segments:
+        spec = audio_to_spectrogram_from_waveform(segment).to(device)
+        segment_result = model_predict(spec)
+        segment_probs.append(segment_result['raw_score'])
+
+    avg_prob_real = float(np.mean(segment_probs))
+    real_votes = sum(prob >= 0.5 for prob in segment_probs)
+    fake_votes = len(segment_probs) - real_votes
+
+    is_real = real_votes >= fake_votes
+    confidence = avg_prob_real if is_real else (1.0 - avg_prob_real)
+
+    return {
+        'prediction': 'REAL' if is_real else 'DEEPFAKE',
+        'confidence': confidence,
+        'raw_score': avg_prob_real,
+        'is_real': is_real,
+        'model': active_model_name,
+        'segments_used': len(segment_probs),
+        'real_votes': int(real_votes),
+        'fake_votes': int(fake_votes),
+    }
 
 
 def save_uploaded_file(file_storage):
