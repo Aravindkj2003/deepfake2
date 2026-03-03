@@ -149,8 +149,31 @@ def predict_audio(audio_path):
     avg_prob_real = float(np.mean(segment_probs))
     real_votes = sum(prob >= 0.5 for prob in segment_probs)
     fake_votes = len(segment_probs) - real_votes
-
+    vote_difference = abs(real_votes - fake_votes)
+    
+    # Hybrid voting approach for detecting synthetic audio:
+    # Synthetic audio (like ElevenLabs) shows a specific pattern:
+    # - Clear majority of "real" votes (3+ out of 4-5)
+    # - BUT has very high confidence segments (>0.95) mixed with suspicious segments (<0.35)
+    # - This inconsistency is typical of TTS/synthetic audio
+    #
+    # Real audio with inconsistent scores usually has closer votes (ties or 1-vote difference)
+    
+    very_high_confidence = sum(prob > 0.95 for prob in segment_probs)
+    has_suspicious_segment = any(prob < 0.35 for prob in segment_probs)
+    
+    # Base prediction on majority vote (ties go to REAL)
     is_real = real_votes >= fake_votes
+    
+    # Override to DEEPFAKE only if:
+    # 1. Clear majority for REAL (2+ vote difference)
+    # 2. At least 40% very high confidence segments
+    # 3. At least one suspicious segment
+    # This pattern indicates synthetic audio trying to pass as real
+    if vote_difference >= 2 and real_votes > fake_votes:
+        if very_high_confidence >= len(segment_probs) * 0.4 and has_suspicious_segment:
+            is_real = False
+    
     confidence = avg_prob_real if is_real else (1.0 - avg_prob_real)
 
     return {

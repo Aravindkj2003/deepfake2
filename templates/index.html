@@ -284,41 +284,12 @@
 
     function App() {
       const [file, setFile] = useState(null);
-      const [uploadMethod, setUploadMethod] = useState(null); // 'upload' or 'paste'
       const [localAudioPreview, setLocalAudioPreview] = useState('');
       const [loading, setLoading] = useState(false);
       const [result, setResult] = useState(null);
       const [error, setError] = useState('');
 
-      const selectFromPasteEvent = (event) => {
-        const clipboardData = event.clipboardData;
-        if (!clipboardData) return false;
 
-        const items = Array.from(clipboardData.items || []);
-        for (const item of items) {
-          if (item.kind === 'file') {
-            const pastedFile = item.getAsFile();
-            if (pastedFile && pastedFile.type.startsWith('audio/')) {
-              setFile(pastedFile);
-              setUploadMethod('paste');
-              setError('');
-              return true;
-            }
-          }
-        }
-
-        const files = Array.from(clipboardData.files || []);
-        for (const pastedFile of files) {
-          if (pastedFile.type && pastedFile.type.startsWith('audio/')) {
-            setFile(pastedFile);
-            setUploadMethod('paste');
-            setError('');
-            return true;
-          }
-        }
-
-        return false;
-      };
 
       useEffect(() => {
         if (!file) {
@@ -334,17 +305,7 @@
         };
       }, [file]);
 
-      useEffect(() => {
-        const handleGlobalPaste = (event) => {
-          const ok = selectFromPasteEvent(event);
-          if (ok) {
-            event.preventDefault();
-          }
-        };
 
-        window.addEventListener('paste', handleGlobalPaste);
-        return () => window.removeEventListener('paste', handleGlobalPaste);
-      }, []);
 
       const clearMessages = () => {
         setError('');
@@ -353,7 +314,6 @@
 
       const clearFile = () => {
         setFile(null);
-        setUploadMethod(null);
         setLocalAudioPreview('');
         clearMessages();
       };
@@ -391,7 +351,7 @@
           <div className="hero">
             <div className="badge">Flask + React</div>
             <h1 className="title">Audio Deepfake Detector</h1>
-            <p className="subtitle">Analyze uploaded or pasted audio files instantly with playback at every stage.</p>
+            <p className="subtitle">Upload audio files and analyze instantly with playback at every stage.</p>
           </div>
 
           <div className="grid">
@@ -404,21 +364,10 @@
                   <input
                     type="file"
                     accept=".wav,.mp3,.ogg,.flac,.m4a,.opus"
-                    disabled={uploadMethod === 'paste'}
-                    onChange={(e) => {
-                      setFile(e.target.files?.[0] || null);
-                      if (e.target.files?.[0]) setUploadMethod('upload');
-                    }}
+                    onChange={(e) => setFile(e.target.files?.[0] || null)}
                   />
-                  <button onClick={analyzeUpload} disabled={loading || !file}>Analyze Upload</button>
+                  <button onClick={analyzeUpload} disabled={loading || !file}>Analyze</button>
                 </div>
-
-                {uploadMethod === 'paste' && file && (
-                  <div className="paste-box">
-                    <strong style={{color: '#c08a4d'}}>📋 Pasted File Active</strong>
-                    <div className="muted" style={{ marginTop: '8px' }}>File uploaded via clipboard paste. Click "Clear" to switch to manual upload.</div>
-                  </div>
-                )}
 
                 {file && (
                   <>
@@ -430,24 +379,10 @@
                         onClick={clearFile} 
                         style={{marginTop: '10px', background: 'rgba(220, 120, 100, 0.6)', flex: '0 0 auto', padding: '8px 14px', fontSize: '13px'}}
                       >
-                        Clear &amp; Change Upload Method
+                        Clear
                       </button>
                     </div>
                   </>
-                )}
-
-                {uploadMethod === 'upload' && !file && (
-                  <div className="paste-box">
-                    <strong style={{color: '#c08a4d'}}>📁 Upload Mode Active</strong>
-                    <div className="muted" style={{ marginTop: '6px' }}>Paste mode is disabled. Click "Choose File" above to select, or clear the current file to use paste.</div>
-                  </div>
-                )}
-
-                {!file && (
-                  <div className="paste-box">
-                    <strong>Paste Audio File:</strong> copy an audio file and press <strong>Ctrl + V</strong> anywhere on this page.
-                    <div className="muted" style={{ marginTop: '6px' }}>If browser blocks file paste, use Choose File instead.</div>
-                  </div>
                 )}
               </div>
             </div>
