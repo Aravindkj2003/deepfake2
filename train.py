@@ -1,270 +1,340 @@
+"""
+Unified Training Script for Deepfake Audio Detection Models.
+
+Supports:
+- CNN: Simple convolutional neural network
+- CNN+LSTM: Hybrid model combining CNN and LSTM
+"""
+
+import argparse
+import json
+import os
 import torch
 import torch.nn as nn
-import torch.optim as optim
-from pathlib import Path
-import argparse
+from torch.optim import Adam
+from torch.optim.lr_scheduler import ReduceLROnPlateau
 from tqdm import tqdm
-import json
-from datetime import datetime
 
-from models.gan_model import create_gan
 from models.dataset import get_data_loaders
+from models.gan_model import Discriminator
+from models.cnn_lstm_model import create_cnn_lstm_model
+from models.advanced_models import create_advanced_model
 
 
-class GANTrainer:
-    """
-    Trainer for audio deepfake detection GAN.
-    Implements proper adversarial training with anti-overfitting measures.
-    """
+class ModelTrainer:
+    """Trainer for deepfake detection models."""
     
-    def __init__(self, config):
-        self.config = config
-        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        print(f"Using device: {self.device}")
+    def __init__(
+        self,
+        model,
+        train_loader,
+        val_loader,
+        device,
+        learning_rate=0.001,
+        checkpoint_dir="./checkpoints",
+        model_name="model"
+    ):
+        self.model = model.to(device)
+        self.device = device
+        self.train_loader = train_loader
+        self.val_loader = val_loader
+        self.checkpoint_dir = checkpoint_dir
+        self.model_name = model_name
         
-        # Create models
-        self.generator, self.discriminator = create_gan(
-            latent_dim=config['latent_dim'],
-            channels=1,
-            dropout_rate=config['dropout_rate'],
-            device=self.device
+        os.makedirs(checkpoint_dir, exist_ok=True)
+        
+        self.criterion = nn.BCEWithLogitsLoss()
+        self.optimizer = Adam(self.model.parameters(), lr=learning_rate, weight_decay=1e-5)
+        self.scheduler = ReduceLROnPlateau(
+            self.optimizer, 
+            mode='max', 
+            factor=0.5, 
+            patience=3, 
+            verbose=True
         )
         
-        # Loss function
-        self.criterion = nn.BCELoss()
-        
-        # Optimizers with weight decay for regularization
-        self.optimizer_G = optim.Adam(
-            self.generator.parameters(),
-            lr=config['lr_g'],
-            betas=(0.5, 0.999),
-            weight_decay=config['weight_decay']
-        )
-        
-        self.optimizer_D = optim.Adam(
-            self.discriminator.parameters(),
-            lr=config['lr_d'],
-            betas=(0.5, 0.999),
-            weight_decay=config['weight_decay']
-        )
-        
-        # Data loaders
-        self.train_loader, self.val_loader = get_data_loaders(
-            data_dir=config['data_dir'],
-            batch_size=config['batch_size'],
-            val_split=config['val_split'],
-            num_workers=config['num_workers']
-        )
-        
-        # Training tracking
-        self.history = {
-            'train_d_loss': [],
-            'train_g_loss': [],
-            'val_d_loss': [],
+        self.best_accuracy = 0.0
+        self.training_history = {
+            'train_loss': [],
+            'train_acc': [],
+            'val_loss': [],
             'val_acc': [],
-            'best_val_acc': 0.0,
-            'epochs_no_improve': 0
+            'learning_rates': []
         }
-        
-        # Create checkpoint directory
-        self.checkpoint_dir = Path(config['checkpoint_dir'])
-        self.checkpoint_dir.mkdir(parents=True, exist_ok=True)
-        
-        print(f"\nModel Configuration:")
-        print(f"  Generator params: {sum(p.numel() for p in self.generator.parameters()):,}")
-        print(f"  Discriminator params: {sum(p.numel() for p in self.discriminator.parameters()):,}")
-        print(f"  Batch size: {config['batch_size']}")
-        print(f"  Learning rates: G={config['lr_g']}, D={config['lr_d']}")
-        print(f"  Dropout rate: {config['dropout_rate']}")
     
-    def train_epoch(self, epoch):
+    def train_epoch(self):
         """Train for one epoch."""
-        self.generator.train()
-        self.discriminator.train()
+        self.model.train()
+        total_loss = 0.0
+        correct = 0
+        total = 0
         
-        d_losses = []
-        g_losses = []
-        
-        pbar = tqdm(self.train_loader, desc=f"Epoch {epoch+1}/{self.config['epochs']}")
-        
-        for real_specs, real_labels in pbar:
-            batch_size = real_specs.size(0)
-            real_specs = real_specs.to(self.device)
-            real_labels = torch.ones(batch_size, 1).to(self.device) * 0.9  # Label smoothing
-            fake_labels = torch.zeros(batch_size, 1).to(self.device)
+        pbar = tqdm(self.train_loader, desc="Training", leave=True)
+        for spectrograms, labels in pbar:
+            spectrograms = spectrograms.to(self.device)
+            labels = labels.to(self.device).float()
+            if labels.dim() == 1:
+                labels = labels.unsqueeze(1)
             
-            # =====================
-            # Train Discriminator
-            # =====================
-            self.optimizer_D.zero_grad()
+            self.optimizer.zero_grad()
             
-            # Real samples
-            real_preds = self.discriminator(real_specs)
-            d_loss_real = self.criterion(real_preds, real_labels)
+            outputs = self.model(spectrograms)
+            loss = self.criterion(outputs, labels)
             
-            # Fake samples
-            z = torch.randn(batch_size, self.config['latent_dim']).to(self.device)
-            fake_specs = self.generator(z).detach()
-            fake_preds = self.discriminator(fake_specs)
-            d_loss_fake = self.criterion(fake_preds, fake_labels)
+            loss.backward()
+            torch.nn.utils.clip_grad_norm_(self.model.parameters(), max_norm=1.0)
+            self.optimizer.step()
             
-            # Total discriminator loss
-            d_loss = (d_loss_real + d_loss_fake) / 2
-            d_loss.backward()
-            self.optimizer_D.step()
+            total_loss += loss.item()
             
-            # ==================
-            # Train Generator
-            # ==================
-            self.optimizer_G.zero_grad()
-            
-            # Generate fake samples and try to fool discriminator
-            z = torch.randn(batch_size, self.config['latent_dim']).to(self.device)
-            fake_specs = self.generator(z)
-            fake_preds = self.discriminator(fake_specs)
-            
-            # Generator wants discriminator to think fakes are real
-            g_loss = self.criterion(fake_preds, torch.ones(batch_size, 1).to(self.device))
-            g_loss.backward()
-            self.optimizer_G.step()
-            
-            # Track losses
-            d_losses.append(d_loss.item())
-            g_losses.append(g_loss.item())
+            # Accuracy calculation
+            predictions = (outputs > 0.0).float()
+            correct += (predictions == labels).sum().item()
+            total += labels.size(0)
             
             pbar.set_postfix({
-                'D_loss': f'{d_loss.item():.4f}',
-                'G_loss': f'{g_loss.item():.4f}'
+                'loss': f'{loss.item():.4f}',
+                'acc': f'{(correct / total):.4f}'
             })
         
-        return sum(d_losses) / len(d_losses), sum(g_losses) / len(g_losses)
+        avg_loss = total_loss / len(self.train_loader)
+        avg_accuracy = correct / total
+        
+        return avg_loss, avg_accuracy
     
     def validate(self):
-        """Validate discriminator on validation set."""
-        self.discriminator.eval()
-        
-        val_losses = []
+        """Validate the model."""
+        self.model.eval()
+        total_loss = 0.0
         correct = 0
         total = 0
         
         with torch.no_grad():
-            for specs, labels in self.val_loader:
-                specs = specs.to(self.device)
-                labels = labels.to(self.device)
+            for spectrograms, labels in tqdm(self.val_loader, desc="Validating", leave=True):
+                spectrograms = spectrograms.to(self.device)
+                labels = labels.to(self.device).float()
+                if labels.dim() == 1:
+                    labels = labels.unsqueeze(1)
                 
-                preds = self.discriminator(specs)
-                loss = self.criterion(preds, labels)
-                val_losses.append(loss.item())
+                outputs = self.model(spectrograms)
+                loss = self.criterion(outputs, labels)
                 
-                # Calculate accuracy
-                predicted = (preds > 0.5).float()
-                correct += (predicted == labels).sum().item()
+                total_loss += loss.item()
+                
+                predictions = (outputs > 0.0).float()
+                correct += (predictions == labels).sum().item()
                 total += labels.size(0)
         
-        val_loss = sum(val_losses) / len(val_losses)
-        val_acc = correct / total
+        avg_loss = total_loss / len(self.val_loader)
+        avg_accuracy = correct / total
         
-        return val_loss, val_acc
+        return avg_loss, avg_accuracy
     
     def save_checkpoint(self, epoch, is_best=False):
         """Save model checkpoint."""
         checkpoint = {
             'epoch': epoch,
-            'generator_state_dict': self.generator.state_dict(),
-            'discriminator_state_dict': self.discriminator.state_dict(),
-            'optimizer_G_state_dict': self.optimizer_G.state_dict(),
-            'optimizer_D_state_dict': self.optimizer_D.state_dict(),
-            'history': self.history,
-            'config': self.config
+            'model_state_dict': self.model.state_dict(),
+            'optimizer_state_dict': self.optimizer.state_dict(),
+            'best_accuracy': self.best_accuracy,
+            'training_history': self.training_history
         }
         
         # Save latest
-        latest_path = self.checkpoint_dir / 'latest_checkpoint.pth'
+        latest_path = os.path.join(self.checkpoint_dir, f'{self.model_name}_latest.pth')
         torch.save(checkpoint, latest_path)
         
         # Save best
         if is_best:
-            best_path = self.checkpoint_dir / 'best_model.pth'
+            best_path = os.path.join(self.checkpoint_dir, f'{self.model_name}_best.pth')
             torch.save(checkpoint, best_path)
-            print(f"  ✓ Saved best model (val_acc: {self.history['val_acc'][-1]:.4f})")
+            print(f"✓ Saved best model: {best_path}")
     
-    def train(self):
-        """Main training loop with early stopping."""
+    def train(self, num_epochs=20, early_stopping_patience=10):
+        """Main training loop."""
+        patience_counter = 0
+        
         print(f"\n{'='*60}")
-        print(f"Starting GAN Training")
+        print(f"Starting Training: {self.model_name.upper()}")
+        print(f"{'='*60}")
+        print(f"Device: {self.device}")
+        print(f"Model parameters: {sum(p.numel() for p in self.model.parameters()):,}")
+        print(f"Epochs: {num_epochs}")
+        print(f"Early stopping patience: {early_stopping_patience}")
         print(f"{'='*60}\n")
         
-        for epoch in range(self.config['epochs']):
+        for epoch in range(1, num_epochs + 1):
+            print(f"\nEpoch {epoch}/{num_epochs}")
+            print("-" * 60)
+            
             # Train
-            train_d_loss, train_g_loss = self.train_epoch(epoch)
+            train_loss, train_acc = self.train_epoch()
             
             # Validate
-            val_d_loss, val_acc = self.validate()
+            val_loss, val_acc = self.validate()
             
-            # Update history
-            self.history['train_d_loss'].append(train_d_loss)
-            self.history['train_g_loss'].append(train_g_loss)
-            self.history['val_d_loss'].append(val_d_loss)
-            self.history['val_acc'].append(val_acc)
+            # Record history
+            self.training_history['train_loss'].append(train_loss)
+            self.training_history['train_acc'].append(train_acc)
+            self.training_history['val_loss'].append(val_loss)
+            self.training_history['val_acc'].append(val_acc)
+            self.training_history['learning_rates'].append(
+                self.optimizer.param_groups[0]['lr']
+            )
             
-            # Print epoch summary
-            print(f"\nEpoch {epoch+1}/{self.config['epochs']} Summary:")
-            print(f"  Train - D_loss: {train_d_loss:.4f} | G_loss: {train_g_loss:.4f}")
-            print(f"  Val   - D_loss: {val_d_loss:.4f} | Accuracy: {val_acc:.4f}")
+            # Print results
+            print(f"Train Loss: {train_loss:.4f} | Train Acc: {train_acc:.4f}")
+            print(f"Val Loss:   {val_loss:.4f} | Val Acc:   {val_acc:.4f}")
             
-            # Check for improvement
-            is_best = val_acc > self.history['best_val_acc']
-            if is_best:
-                self.history['best_val_acc'] = val_acc
-                self.history['epochs_no_improve'] = 0
+            # Update scheduler
+            self.scheduler.step(val_acc)
+            
+            # Early stopping and checkpoint
+            if val_acc > self.best_accuracy:
+                self.best_accuracy = val_acc
+                self.save_checkpoint(epoch, is_best=True)
+                patience_counter = 0
+                print(f"✓ Best validation accuracy: {self.best_accuracy:.4f}")
             else:
-                self.history['epochs_no_improve'] += 1
-            
-            # Save checkpoint
-            self.save_checkpoint(epoch, is_best=is_best)
-            
-            # Early stopping
-            if self.history['epochs_no_improve'] >= self.config['early_stopping_patience']:
-                print(f"\n⚠ Early stopping triggered after {epoch+1} epochs")
-                print(f"  No improvement for {self.config['early_stopping_patience']} epochs")
-                break
+                patience_counter += 1
+                self.save_checkpoint(epoch, is_best=False)
+                print(f"No improvement ({patience_counter}/{early_stopping_patience})")
+                
+                if patience_counter >= early_stopping_patience:
+                    print(f"\n✗ Early stopping at epoch {epoch}")
+                    break
         
-        # Save final history
-        history_path = self.checkpoint_dir / 'training_history.json'
+        # Save training history
+        history_path = os.path.join(
+            self.checkpoint_dir, 
+            f'{self.model_name}_training_history.json'
+        )
         with open(history_path, 'w') as f:
-            json.dump(self.history, f, indent=2)
+            json.dump(self.training_history, f, indent=2)
         
         print(f"\n{'='*60}")
         print(f"Training Complete!")
-        print(f"{'='*60}")
-        print(f"Best validation accuracy: {self.history['best_val_acc']:.4f}")
-        print(f"Model saved to: {self.checkpoint_dir / 'best_model.pth'}")
+        print(f"Best Validation Accuracy: {self.best_accuracy:.4f} ({self.best_accuracy*100:.2f}%)")
+        print(f"Checkpoint saved: {self.checkpoint_dir}/{self.model_name}_best.pth")
+        print(f"{'='*60}\n")
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Train GAN for audio deepfake detection')
-    parser.add_argument('--data-dir', type=str, required=True, help='Path to augmented dataset')
-    parser.add_argument('--checkpoint-dir', type=str, default='./checkpoints', help='Checkpoint directory')
-    parser.add_argument('--epochs', type=int, default=50, help='Number of epochs')
+    parser = argparse.ArgumentParser(
+        description="Train deepfake audio detection models"
+    )
+    
+    # Model selection
+    parser.add_argument(
+        '--model',
+        choices=['cnn', 'cnn_lstm', 'resnet18', 'resnet50', 'efficientnet_b0'],
+        default='resnet18',
+        help='Model architecture to train'
+    )
+    parser.add_argument(
+        '--pretrained',
+        action='store_true',
+        help='Use pretrained ImageNet weights (for advanced models)'
+    )
+    parser.add_argument(
+        '--no-pretrained',
+        dest='pretrained',
+        action='store_false',
+        help='Disable pretrained weights'
+    )
+    parser.set_defaults(pretrained=True)
+    
+    # Data
+    parser.add_argument(
+        '--data-dir',
+        type=str,
+        default='./data/for2sec/aug',
+        help='Path to augmented data directory'
+    )
+    
+    # Training
+    parser.add_argument('--epochs', type=int, default=25, help='Number of epochs')
     parser.add_argument('--batch-size', type=int, default=32, help='Batch size')
-    parser.add_argument('--lr-g', type=float, default=0.0002, help='Generator learning rate')
-    parser.add_argument('--lr-d', type=float, default=0.0002, help='Discriminator learning rate')
-    parser.add_argument('--latent-dim', type=int, default=100, help='Latent dimension')
+    parser.add_argument('--lr', type=float, default=0.001, help='Learning rate')
     parser.add_argument('--dropout-rate', type=float, default=0.3, help='Dropout rate')
-    parser.add_argument('--weight-decay', type=float, default=1e-5, help='Weight decay (L2 regularization)')
     parser.add_argument('--val-split', type=float, default=0.2, help='Validation split')
-    parser.add_argument('--early-stopping-patience', type=int, default=10, help='Early stopping patience')
-    parser.add_argument('--num-workers', type=int, default=4, help='Number of data loader workers')
+    parser.add_argument('--num-workers', type=int, default=4, help='DataLoader workers')
+    
+    # LSTM specific
+    parser.add_argument('--lstm-hidden', type=int, default=128, help='LSTM hidden size')
+    parser.add_argument('--lstm-layers', type=int, default=2, help='Number of LSTM layers')
+    
+    # Checkpoints
+    parser.add_argument(
+        '--checkpoint-dir',
+        type=str,
+        default='./checkpoints',
+        help='Directory for saving checkpoints'
+    )
+    parser.add_argument(
+        '--early-stopping-patience',
+        type=int,
+        default=10,
+        help='Early stopping patience'
+    )
     
     args = parser.parse_args()
     
-    # Create config dict
-    config = vars(args)
+    # Setup device
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    print(f"\n{'='*60}")
+    print(f"Using device: {device}")
+    if device.type == 'cuda':
+        print(f"GPU: {torch.cuda.get_device_name(0)}")
+    print(f"{'='*60}\n")
     
-    # Initialize trainer and start training
-    trainer = GANTrainer(config)
-    trainer.train()
+    # Load data
+    print("Loading data...")
+    train_loader, val_loader = get_data_loaders(
+        data_dir=args.data_dir,
+        batch_size=args.batch_size,
+        val_split=args.val_split,
+        num_workers=args.num_workers
+    )
+    print(f"Train batches: {len(train_loader)} | Val batches: {len(val_loader)}\n")
+    
+    # Create model
+    if args.model == 'cnn':
+        print("Creating CNN model...")
+        model = Discriminator(dropout_rate=args.dropout_rate)
+        model_name = 'cnn'
+    elif args.model == 'cnn_lstm':
+        print("Creating CNN+LSTM model...")
+        model = create_cnn_lstm_model(
+            lstm_hidden_size=args.lstm_hidden,
+            lstm_num_layers=args.lstm_layers,
+            dropout_rate=args.dropout_rate
+        )
+        model_name = 'cnn_lstm'
+    else:
+        print(f"Creating advanced model: {args.model} (pretrained={args.pretrained})...")
+        model = create_advanced_model(args.model, pretrained=args.pretrained)
+        model_name = args.model
+    
+    num_params = sum(p.numel() for p in model.parameters())
+    print(f"Model parameters: {num_params:,}\n")
+    
+    # Train
+    trainer = ModelTrainer(
+        model=model,
+        train_loader=train_loader,
+        val_loader=val_loader,
+        device=device,
+        learning_rate=args.lr,
+        checkpoint_dir=args.checkpoint_dir,
+        model_name=model_name
+    )
+    
+    trainer.train(
+        num_epochs=args.epochs,
+        early_stopping_patience=args.early_stopping_patience
+    )
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
